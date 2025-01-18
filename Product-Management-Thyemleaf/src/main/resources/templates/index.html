@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Product List</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+<body style="background-color: #f0f1f2;" >
+
+<!-- Start Navbar -->
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Product System</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+	
+<!-- End Navbar -->
+
+	<div class="container p-5">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				
+				<div class="card">
+					<div class="card-header">
+						<a href="add" class="btn btn-primary">Add product</a>
+					</div>
+				
+					<div class="card-body">
+						<table class="table">
+						 <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">
+            <a th:href="@{/page/{pid}(pid=${pageNo}, sortField='price', sortDir=${reverseSortDir})}">
+                Price
+                <span th:if="${sortField == 'price' && sortDir == 'asc'}">↑</span>
+                <span th:if="${sortField == 'price' && sortDir == 'desc'}">↓</span>
+            </a>
+        </th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Action</th>
+    </tr>
+</thead>
+
+						  <tbody>
+						     <tr th:each="c : ${show_product}">
+						        <td th:text="${c.id}"></td>
+						        <td th:text="${c.productName}"></td>
+						        <td th:text="${c.description}"></td>
+						        <td th:text="${c.price}"></td>
+						        <td th:text="${c.quantity}"></td>
+						        <td>
+									
+									<a th:href="@{'/edit/'+${c.id}}" class="btn btn-success">Edit</a>
+									<a th:href="@{'/delete/'+${c.id}}" class="btn btn-danger">delete</a>
+						        </td>
+						      </tr>
+						    
+						  </tbody>
+						</table>
+					</div>
+					
+					<div class="card-footer">
+						
+						<div class="row">
+							<div class="col-md-6">
+								<p>Total Products: <span th:text="${totalelements}"></span></p>
+							</div>
+							<div class="col-md-6">
+								    <nav aria-label="Page navigation example">
+								        <ul class="pagination">
+								           <div class="col-md-6">
+											    <nav aria-label="Page navigation example">
+											        <ul class="pagination">
+											            <!-- Previous Button -->
+											            <li th:classappend="${pageNo == 0} ? 'disabled' : ''" class="page-item">
+											                <a class="page-link" th:href="@{/page/{pid}(pid=${pageNo - 1})}" 
+											                   th:if="${pageNo > 0}">
+											                   Previous
+											                </a>
+											            </li>
+											
+											            <!-- Page Numbers -->
+											            <li th:each="i : ${#numbers.sequence(0, totalpage - 1)}" 
+											                th:classappend="${pageNo == i} ? 'active' : ''" class="page-item">
+											                <a class="page-link" th:href="@{/page/{pid}(pid=${i})}" 
+											                   th:text="${i + 1}">1</a>
+											            </li>
+											
+											            <!-- Next Button -->
+											            <li th:classappend="${pageNo == totalpage - 1} ? 'disabled' : ''" class="page-item">
+											                <a class="page-link" th:href="@{/page/{pid}(pid=${pageNo + 1})}" 
+											                   th:if="${pageNo < totalpage - 1}">
+											                   Next
+											                </a>
+											            </li>
+											        </ul>
+											    </nav>
+											</div>
+								           
+								        </ul>
+								    </nav>
+								    
+								</div>
+															
+						</div>
+						
+						
+					
+					</div>
+					
+				</div>
+			<footer class="text-center mt-5 py-4">
+			  <p>&copy; 2025 XOR. All rights reserved.</p>
+			</footer>
+			</div>
+			
+		</div>
+		
+	</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>
